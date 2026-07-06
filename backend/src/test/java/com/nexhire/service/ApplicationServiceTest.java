@@ -10,6 +10,7 @@ import com.nexhire.enums.LifecycleStatus;
 import com.nexhire.enums.UserRole;
 import com.nexhire.exception.DuplicateResourceException;
 import com.nexhire.exception.InvalidStateTransitionException;
+import com.nexhire.repository.BackgroundVerificationRepository;
 import com.nexhire.repository.JobApplicationRepository;
 import com.nexhire.repository.JobRepository;
 import com.nexhire.repository.UserRepository;
@@ -37,6 +38,8 @@ class ApplicationServiceTest {
     private JobRepository jobRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private BackgroundVerificationRepository bgvRepository;
 
     @InjectMocks
     private ApplicationService applicationService;

@@ -23,6 +23,7 @@ public class ApplicationResponse {
     private String holdReason;
     private LocalDateTime holdCreatedAt;
     private LocalDateTime holdResolvedAt;
+    private String bgvStatus;
     private LocalDateTime appliedAt;
     private LocalDateTime updatedAt;
 }

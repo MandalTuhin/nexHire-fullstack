@@ -25,6 +25,7 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 - **Activity Log**: A record of significant actions performed within the system
 - **JWT**: JSON Web Token used for stateless authentication
 - **JOINING_ON_HOLD**: A transitional ApplicationStatus indicating that HR attempted to send a joining letter but location resources (hiring budget or training seats) were unavailable. HR can retry when resources become available.
+- **BGV (Background Verification)**: A verification performed by a third-party vendor. nexHIRE records and surfaces the BGV status (PENDING, IN_PROGRESS, CLEARED, FAILED, ON_HOLD) against the candidate's application. HR initiates it; the third-party result is recorded via a status update.
 
 ## Requirements
 
@@ -190,3 +191,26 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 3. WHEN HR retries sending a joining letter for an application with status JOINING_ON_HOLD and resources are now available THEN nexHIRE SHALL create the joining letter, set applicationStatus to JOINING_LETTER_SENT, record the hold resolution timestamp, and decrement both budget and seat by one
 4. WHEN HR retries sending a joining letter for an application with status JOINING_ON_HOLD and resources are still unavailable THEN nexHIRE SHALL keep applicationStatus as JOINING_ON_HOLD, update the hold reason, and return an HTTP 400 response
 5. WHEN a candidate views their applications THEN nexHIRE SHALL display the JOINING_ON_HOLD status and the hold reason if applicable
+
+### Requirement 16
+
+**User Story:** As an HR user, I want to record background verification (BGV) status performed by a third-party vendor, so that the verification outcome is tracked against a candidate's application.
+
+#### Acceptance Criteria
+
+1. WHEN HR initiates a background verification for an application THEN nexHIRE SHALL create a BGV record with status PENDING and associate it with the application
+2. IF a background verification already exists for the application THEN nexHIRE SHALL reject the initiation and return an HTTP 409 response
+3. WHEN a background verification status update is recorded THEN nexHIRE SHALL update the BGV status and, for CLEARED or FAILED outcomes, record the completion timestamp
+4. WHEN a candidate views their applications THEN nexHIRE SHALL surface the current BGV status if a BGV record exists
+
+### Requirement 17
+
+**User Story:** As an admin, I want to manage users, roles, assets, and view activity logs, so that I can administer the platform.
+
+#### Acceptance Criteria
+
+1. WHEN an admin requests the user list THEN nexHIRE SHALL return all users with role, lifecycle status, active flag, and registration date
+2. WHEN an admin updates a user's role THEN nexHIRE SHALL change the role and record an activity log entry
+3. WHEN an admin deactivates a user THEN nexHIRE SHALL set the user inactive and record an activity log entry
+4. WHEN an admin assigns an asset to a user THEN nexHIRE SHALL create an active asset assignment, and IF the asset is already actively assigned THEN nexHIRE SHALL reject the request
+5. WHEN an admin requests activity logs THEN nexHIRE SHALL return log entries in reverse chronological order

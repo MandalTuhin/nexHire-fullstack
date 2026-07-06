@@ -210,8 +210,8 @@
 
 ## Phase 4: Training & Project Assignment
 
-- [ ] 12. Implement training progress tracking
-  - [ ] 12.1 Implement TrainingService and TrainingController
+- [x] 12. Implement training progress tracking
+  - [x] 12.1 Implement TrainingService and TrainingController
     - GET /api/training/trainees (HR): list all trainees
     - GET /api/training/my (EMPLOYEE): own training record
     - PUT /api/training/{traineeId}/progress (HR): update progress (0-100)
@@ -225,8 +225,8 @@
     - Test non-trainee update returns 400
     - _Requirements: 7.1, 7.2, 7.3_
 
-- [ ] 13. Implement RMG project assignment
-  - [ ] 13.1 Implement ProjectService and ProjectController
+- [x] 13. Implement RMG project assignment
+  - [x] 13.1 Implement ProjectService and ProjectController
     - GET /api/projects (RMG): list active projects
     - POST /api/projects (RMG): create project
     - GET /api/projects/eligible-trainees (RMG): trainees with TRAINING_COMPLETED
@@ -244,19 +244,19 @@
 
 ## Phase 5: Admin Features
 
-- [ ] 15. Implement admin user and role management
-  - [ ] 15.1 Implement UserManagementService and Controller
+- [x] 15. Implement admin user and role management
+  - [x] 15.1 Implement UserManagementService and Controller
     - GET /api/users (ADMIN): list all users with role, lifecycleStatus, createdAt
     - PUT /api/users/{id}/role (ADMIN): update role, log activity
     - PUT /api/users/{id}/deactivate (ADMIN): set active=false
     - _Requirements: 9.1, 9.2, 9.3_
 
-  - [ ] 15.2 Implement RoleController
+  - [x] 15.2 Implement RoleController
     - GET /api/roles (ADMIN): return available roles
     - _Requirements: 9.4_
 
-- [ ] 16. Implement asset management
-  - [ ] 16.1 Implement AssetService and AssetController
+- [x] 16. Implement asset management
+  - [x] 16.1 Implement AssetService and AssetController
     - GET /api/assets (ADMIN): list all assets
     - POST /api/assets (ADMIN): create asset
     - POST /api/assets/{assetId}/assign/{userId} (ADMIN): assign
@@ -264,8 +264,8 @@
     - GET /api/assets/user/{userId} (ADMIN): active + historical
     - _Requirements: 10.1, 10.2, 10.3_
 
-- [ ] 17. Implement activity logs
-  - [ ] 17.1 Implement ActivityLogService and Controller
+- [x] 17. Implement activity logs
+  - [x] 17.1 Implement ActivityLogService and Controller
     - GET /api/activity-logs (ADMIN): return logs in reverse chronological order
     - Logging method called from other services on significant actions
     - _Requirements: 11.1, 11.2_

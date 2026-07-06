@@ -8,6 +8,7 @@ import com.nexhire.enums.ApplicationStatus;
 import com.nexhire.exception.DuplicateResourceException;
 import com.nexhire.exception.InvalidStateTransitionException;
 import com.nexhire.exception.ResourceNotFoundException;
+import com.nexhire.repository.BackgroundVerificationRepository;
 import com.nexhire.repository.JobApplicationRepository;
 import com.nexhire.repository.JobRepository;
 import com.nexhire.repository.UserRepository;
@@ -24,6 +25,7 @@ public class ApplicationService {
     private final JobApplicationRepository applicationRepository;
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
+    private final BackgroundVerificationRepository bgvRepository;
 
     @Transactional
     public ApplicationResponse applyToJob(Long userId, Long jobId) {
@@ -90,6 +92,8 @@ public class ApplicationService {
                 .holdReason(app.getHoldReason())
                 .holdCreatedAt(app.getHoldCreatedAt())
                 .holdResolvedAt(app.getHoldResolvedAt())
+                .bgvStatus(bgvRepository.findByApplicationId(app.getId())
+                        .map(b -> b.getStatus().name()).orElse(null))
                 .appliedAt(app.getAppliedAt())
                 .updatedAt(app.getUpdatedAt())
                 .build();

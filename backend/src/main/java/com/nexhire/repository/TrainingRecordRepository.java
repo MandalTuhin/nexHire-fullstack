@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface TrainingRecordRepository extends JpaRepository<TrainingRecord, Long> {
 
     Optional<TrainingRecord> findByTraineeId(Long traineeId);
+
+    Optional<TrainingRecord> findByTraineeUserId(Long userId);
 }

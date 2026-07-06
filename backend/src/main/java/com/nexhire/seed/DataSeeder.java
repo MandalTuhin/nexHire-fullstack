@@ -21,6 +21,7 @@ public class DataSeeder implements CommandLineRunner {
     private final HiringBudgetRepository hiringBudgetRepository;
     private final TrainingSeatRepository trainingSeatRepository;
     private final ProjectRepository projectRepository;
+    private final AssetRepository assetRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -143,6 +144,28 @@ public class DataSeeder implements CommandLineRunner {
         projectRepository.save(Project.builder()
                 .name("Project Beta")
                 .description("Customer relationship management platform")
+                .build());
+
+        // Seed assets
+        assetRepository.save(Asset.builder()
+                .name("Dell Latitude 5540")
+                .type("LAPTOP")
+                .serialNumber("DL-5540-0001")
+                .build());
+        assetRepository.save(Asset.builder()
+                .name("Dell Latitude 5540")
+                .type("LAPTOP")
+                .serialNumber("DL-5540-0002")
+                .build());
+        assetRepository.save(Asset.builder()
+                .name("Employee ID Card")
+                .type("ID_CARD")
+                .serialNumber("IDC-0001")
+                .build());
+        assetRepository.save(Asset.builder()
+                .name("Logitech Headset")
+                .type("HEADSET")
+                .serialNumber("LG-HS-0001")
                 .build());
 
         log.info("Database seeding complete.");
