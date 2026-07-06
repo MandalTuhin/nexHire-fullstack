@@ -1,13 +1,14 @@
 package com.nexhire.security;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * JWT Token Provider - skeleton for Phase 1.
- * Full implementation with token generation, validation, and claim extraction
- * will be completed in Phase 2.
- */
+import javax.crypto.SecretKey;
+import java.util.Date;
+
 @Component
 public class JwtTokenProvider {
 
@@ -17,8 +18,55 @@ public class JwtTokenProvider {
     @Value("${app.jwt.expiration-ms}")
     private long jwtExpirationMs;
 
-    // TODO: Phase 2 - generateToken(userId, email, role)
-    // TODO: Phase 2 - validateToken(token)
-    // TODO: Phase 2 - getUserIdFromToken(token)
-    // TODO: Phase 2 - getRoleFromToken(token)
+    public String generateToken(Long userId, String email, String role) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+
+        return Jwts.builder()
+                .subject(String.valueOf(userId))
+                .claim("email", email)
+                .claim("role", role)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey())
+                .compact();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        Claims claims = parseToken(token);
+        return Long.parseLong(claims.getSubject());
+    }
+
+    public String getEmailFromToken(String token) {
+        Claims claims = parseToken(token);
+        return claims.get("email", String.class);
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = parseToken(token);
+        return claims.get("role", String.class);
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            parseToken(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private Claims parseToken(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(
+                java.util.Base64.getEncoder().encodeToString(jwtSecret.getBytes()));
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 }

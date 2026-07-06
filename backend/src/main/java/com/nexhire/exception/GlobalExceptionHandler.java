@@ -2,14 +2,20 @@ package com.nexhire.exception;
 
 import com.nexhire.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -37,6 +43,28 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
+    @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(
+            Exception ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid credentials", request);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoHandlerFound(
+            NoHandlerFoundException ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.NOT_FOUND,
+                "No endpoint found for " + ex.getHttpMethod() + " " + ex.getRequestURL(),
+                request);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(
+            NoResourceFoundException ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.NOT_FOUND,
+                "Resource not found: " + request.getRequestURI(),
+                request);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(
             MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -50,6 +78,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(
             Exception ex, HttpServletRequest request) {
+        log.error("Unhandled exception at {}: {}", request.getRequestURI(), ex.getMessage(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                 "An unexpected error occurred", request);
     }

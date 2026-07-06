@@ -92,36 +92,36 @@
 
 ## Phase 2: Authentication & Security
 
-- [ ] 4. Implement JWT authentication
-  - [ ] 4.1 Implement JwtTokenProvider
+- [x] 4. Implement JWT authentication
+  - [x] 4.1 Implement JwtTokenProvider
     - Token generation with userId, email, role claims
     - Token validation and parsing
     - Configurable secret and expiration in application.yml
     - _Requirements: 1.2, 12.1_
 
-  - [ ] 4.2 Implement JwtAuthenticationFilter
+  - [x] 4.2 Implement JwtAuthenticationFilter
     - Extract token from Authorization header
     - Validate and set SecurityContext
     - _Requirements: 12.1, 12.2_
 
-  - [ ] 4.3 Implement CustomUserDetailsService
+  - [x] 4.3 Implement CustomUserDetailsService
     - Load user by email from repository
     - Check active status
     - _Requirements: 1.2, 9.3_
 
-  - [ ] 4.4 Configure SecurityConfig with endpoint authorization
+  - [x] 4.4 Configure SecurityConfig with endpoint authorization
     - Permit /api/auth/\*\* publicly
     - Restrict endpoints by role as per permissions matrix
     - Configure stateless session, BCrypt encoder, CORS
     - _Requirements: 12.1, 12.2_
 
-  - [ ] 4.5 Implement AuthController and AuthService
+  - [x] 4.5 Implement AuthController and AuthService
     - POST /api/auth/register: create user with role=EMPLOYEE, lifecycleStatus=CANDIDATE
     - POST /api/auth/login: validate credentials, return JWT + role + lifecycleStatus
     - Create RegisterRequest, LoginRequest, LoginResponse DTOs
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-  - [ ]\* 4.6 Write AuthServiceTest with Mockito
+  - [x]\* 4.6 Write AuthServiceTest with Mockito
     - Test registration creates correct defaults
     - Test duplicate email rejection
     - Test login with valid credentials returns token
