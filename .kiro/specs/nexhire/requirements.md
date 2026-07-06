@@ -9,7 +9,7 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 - **nexHIRE**: The HRMS application being designed
 - **UserRole**: Authorization role (ADMIN, HR, RMG, EMPLOYEE). Controls what APIs and pages a user can access.
 - **LifecycleStatus**: The current stage of an EMPLOYEE-role user (CANDIDATE, TRAINEE, PROJECT_ASSIGNED). Does not apply to ADMIN, HR, or RMG users.
-- **ApplicationStatus**: The hiring/onboarding workflow status of a specific job application (APPLIED through PROJECT_ASSIGNED). Created only when a candidate applies for a job.
+- **ApplicationStatus**: The hiring/onboarding workflow status of a specific job application (APPLIED, ASSESSMENT_PENDING, ASSESSMENT_COMPLETED, QUALIFIED, REJECTED, OFFER_SENT, OFFER_ACCEPTED, OFFER_REJECTED, JOINING_ON_HOLD, JOINING_LETTER_SENT, TRAINING_IN_PROGRESS, TRAINING_COMPLETED, PROJECT_ASSIGNED). Created only when a candidate applies for a job.
 - **Candidate**: An EMPLOYEE-role user whose lifecycleStatus is CANDIDATE
 - **Trainee**: An EMPLOYEE-role user whose lifecycleStatus is TRAINEE
 - **HR**: Human Resources role responsible for managing hiring workflow, assessments, offers, joining, and training
@@ -24,6 +24,7 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 - **Asset**: Physical or digital resources (laptop, ID card, etc.) assigned to employees by Admin
 - **Activity Log**: A record of significant actions performed within the system
 - **JWT**: JSON Web Token used for stateless authentication
+- **JOINING_ON_HOLD**: A transitional ApplicationStatus indicating that HR attempted to send a joining letter but location resources (hiring budget or training seats) were unavailable. HR can retry when resources become available.
 
 ## Requirements
 
@@ -177,3 +178,15 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 1. WHEN the backend receives a valid JSON request body THEN nexHIRE SHALL deserialize the payload into the corresponding DTO and validate all fields
 2. WHEN the backend returns a response THEN nexHIRE SHALL serialize the response DTO to JSON format with consistent field naming (camelCase)
 3. WHEN the backend receives a malformed JSON request body THEN nexHIRE SHALL return an HTTP 400 response with a descriptive error message
+
+### Requirement 15
+
+**User Story:** As an HR user, I want the system to handle the case where location resources are unavailable when sending a joining letter, so that candidates are placed on hold rather than rejected and can be processed when resources become available.
+
+#### Acceptance Criteria
+
+1. WHEN HR attempts to send a joining letter and both hiring budget and training seats are available for the selected location THEN nexHIRE SHALL create the joining letter, set applicationStatus to JOINING_LETTER_SENT, and decrement both budget and seat by one
+2. WHEN HR attempts to send a joining letter and either hiring budget or training seats are unavailable THEN nexHIRE SHALL set applicationStatus to JOINING_ON_HOLD, record the hold reason and timestamp, not create a joining letter, not consume any resources, and return an HTTP 400 response indicating the candidate has been put on hold
+3. WHEN HR retries sending a joining letter for an application with status JOINING_ON_HOLD and resources are now available THEN nexHIRE SHALL create the joining letter, set applicationStatus to JOINING_LETTER_SENT, record the hold resolution timestamp, and decrement both budget and seat by one
+4. WHEN HR retries sending a joining letter for an application with status JOINING_ON_HOLD and resources are still unavailable THEN nexHIRE SHALL keep applicationStatus as JOINING_ON_HOLD, update the hold reason, and return an HTTP 400 response
+5. WHEN a candidate views their applications THEN nexHIRE SHALL display the JOINING_ON_HOLD status and the hold reason if applicable

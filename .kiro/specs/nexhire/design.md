@@ -260,8 +260,28 @@ CANDIDATE, TRAINEE, PROJECT_ASSIGNED
 
 ```
 APPLIED, ASSESSMENT_PENDING, ASSESSMENT_COMPLETED, QUALIFIED, REJECTED,
-OFFER_SENT, OFFER_ACCEPTED, OFFER_REJECTED, JOINING_LETTER_SENT,
+OFFER_SENT, OFFER_ACCEPTED, OFFER_REJECTED, JOINING_ON_HOLD, JOINING_LETTER_SENT,
 TRAINING_IN_PROGRESS, TRAINING_COMPLETED, PROJECT_ASSIGNED
+```
+
+### Application Status State Machine
+
+```mermaid
+stateDiagram-v2
+    APPLIED --> ASSESSMENT_PENDING : HR starts assessment
+    ASSESSMENT_PENDING --> ASSESSMENT_COMPLETED : HR enters score
+    ASSESSMENT_COMPLETED --> QUALIFIED : HR qualifies
+    ASSESSMENT_COMPLETED --> REJECTED : HR rejects
+    QUALIFIED --> OFFER_SENT : HR sends offer
+    OFFER_SENT --> OFFER_ACCEPTED : Candidate accepts
+    OFFER_SENT --> OFFER_REJECTED : Candidate rejects
+    OFFER_ACCEPTED --> JOINING_LETTER_SENT : HR sends joining (resources available)
+    OFFER_ACCEPTED --> JOINING_ON_HOLD : HR tries joining (resources unavailable)
+    JOINING_ON_HOLD --> JOINING_LETTER_SENT : HR retries (resources now available)
+    JOINING_ON_HOLD --> JOINING_ON_HOLD : HR retries (still unavailable)
+    JOINING_LETTER_SENT --> TRAINING_IN_PROGRESS : Candidate accepts joining
+    TRAINING_IN_PROGRESS --> TRAINING_COMPLETED : HR marks training complete
+    TRAINING_COMPLETED --> PROJECT_ASSIGNED : RMG assigns to project
 ```
 
 ### Entity Relationship Diagram

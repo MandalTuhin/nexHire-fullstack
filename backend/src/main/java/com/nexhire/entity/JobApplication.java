@@ -35,6 +35,12 @@ public class JobApplication {
     @Column(nullable = false)
     private ApplicationStatus status;
 
+    private String holdReason;
+
+    private LocalDateTime holdCreatedAt;
+
+    private LocalDateTime holdResolvedAt;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime appliedAt;

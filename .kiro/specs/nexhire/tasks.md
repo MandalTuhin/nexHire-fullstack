@@ -134,35 +134,35 @@
 
 ## Phase 3: Core Onboarding Workflow
 
-- [ ] 6. Implement job listing and applications
-  - [ ] 6.1 Implement JobService and JobController
+- [x] 6. Implement job listing and applications
+  - [x] 6.1 Implement JobService and JobController
     - GET /api/jobs: list active jobs
     - POST /api/jobs (HR): create job
     - _Requirements: 2.1_
 
-  - [ ] 6.2 Implement ApplicationService and ApplicationController
+  - [x] 6.2 Implement ApplicationService and ApplicationController
     - POST /api/applications: apply (derive userId from JWT, check duplicate, set APPLIED)
     - GET /api/applications/my: own applications (from JWT)
     - GET /api/applications (HR): all applications
     - PUT /api/applications/{id}/start-assessment (HR): APPLIED → ASSESSMENT_PENDING
     - _Requirements: 2.2, 2.3, 2.4, 3.1, 12.3_
 
-  - [ ]\* 6.3 Write ApplicationServiceTest with Mockito
+  - [x]\* 6.3 Write ApplicationServiceTest with Mockito
     - Test apply creates application with APPLIED status
     - Test duplicate application returns 409
     - Test start-assessment valid transition
     - Test start-assessment invalid transition returns 400
     - _Requirements: 2.2, 2.3, 3.1_
 
-- [ ] 7. Implement assessment management
-  - [ ] 7.1 Implement AssessmentService and AssessmentController
+- [x] 7. Implement assessment management
+  - [x] 7.1 Implement AssessmentService and AssessmentController
     - POST /api/assessments/{applicationId}: enter score (validate ASSESSMENT_PENDING, derive evaluatedBy from JWT)
     - POST /api/assessments/upload-csv: parse CSV, validate, return summary
     - PUT /api/assessments/{applicationId}/qualify: ASSESSMENT_COMPLETED → QUALIFIED
     - PUT /api/assessments/{applicationId}/reject: ASSESSMENT_COMPLETED → REJECTED
     - _Requirements: 3.2, 3.3, 3.4, 3.5, 3.6, 12.3_
 
-  - [ ]\* 7.2 Write AssessmentServiceTest with Mockito
+  - [x]\* 7.2 Write AssessmentServiceTest with Mockito
     - Test score entry from ASSESSMENT_PENDING succeeds
     - Test score entry from wrong status returns 400
     - Test qualify from ASSESSMENT_COMPLETED succeeds
@@ -170,37 +170,37 @@
     - Test CSV parsing with mixed valid/invalid rows
     - _Requirements: 3.2, 3.3, 3.4, 3.5, 3.6_
 
-- [ ] 8. Implement offer letter management
-  - [ ] 8.1 Implement OfferService and OfferController
+- [x] 8. Implement offer letter management
+  - [x] 8.1 Implement OfferService and OfferController
     - POST /api/offers/{applicationId} (HR): send offer (validate QUALIFIED, no budget check, derive sentBy from JWT)
     - GET /api/offers/my (EMPLOYEE): own offers
     - PUT /api/offers/{id}/accept (EMPLOYEE): OFFER_SENT → OFFER_ACCEPTED
     - PUT /api/offers/{id}/reject (EMPLOYEE): OFFER_SENT → OFFER_REJECTED
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 12.3_
 
-  - [ ]\* 8.2 Write OfferServiceTest with Mockito
+  - [x]\* 8.2 Write OfferServiceTest with Mockito
     - Test send offer from QUALIFIED succeeds
     - Test send offer from wrong status returns 400
     - Test accept offer transitions correctly
     - Test reject offer transitions correctly
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 9. Implement joining letter management with resource checks
-  - [ ] 9.1 Implement JoiningLetterService and JoiningLetterController
+- [x] 9. Implement joining letter management with resource checks
+  - [x] 9.1 Implement JoiningLetterService and JoiningLetterController
     - POST /api/joining-letters/{applicationId} (HR): validate OFFER_ACCEPTED, check budget + seats, decrement both, create letter, set JOINING_LETTER_SENT
     - GET /api/joining-letters/my (EMPLOYEE): own joining letters
     - PUT /api/joining-letters/{id}/accept (EMPLOYEE): JOINING_LETTER_SENT → TRAINING_IN_PROGRESS, create Trainee record, create TrainingRecord (progress=0, completed=false), set lifecycleStatus=TRAINEE, log action
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 6.2_
 
-  - [ ]\* 9.2 Write JoiningLetterServiceTest with Mockito
+  - [x]\* 9.2 Write JoiningLetterServiceTest with Mockito
     - Test joining letter with available budget+seats succeeds and decrements
     - Test joining letter with no budget returns 400
     - Test joining letter with no seats returns 400
     - Test accept joining creates trainee, training record (progress=0), and updates lifecycle to TRAINEE
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 10. Implement location budget and training seats
-  - [ ] 10.1 Implement LocationService and LocationController
+- [x] 10. Implement location budget and training seats
+  - [x] 10.1 Implement LocationService and LocationController
     - GET /api/locations (HR): list locations with budget/seat data
     - PUT /api/locations/{id} (HR): update configuration
     - _Requirements: 6.1_
