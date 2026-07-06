@@ -1,0 +1,16 @@
+package com.nexhire.enums;
+
+public enum ApplicationStatus {
+    APPLIED,
+    ASSESSMENT_PENDING,
+    ASSESSMENT_COMPLETED,
+    QUALIFIED,
+    REJECTED,
+    OFFER_SENT,
+    OFFER_ACCEPTED,
+    OFFER_REJECTED,
+    JOINING_LETTER_SENT,
+    TRAINING_IN_PROGRESS,
+    TRAINING_COMPLETED,
+    PROJECT_ASSIGNED
+}
