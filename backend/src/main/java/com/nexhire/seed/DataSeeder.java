@@ -85,9 +85,9 @@ public class DataSeeder implements CommandLineRunner {
                 .name("Hyderabad").city("Hyderabad").build());
 
         HiringBudget blrBudget = hiringBudgetRepository.save(HiringBudget.builder()
-                .location(bangalore).totalSlots(10).usedSlots(0).build());
+                .location(bangalore).totalSlots(10).usedSlots(0).budgetAmount(5000000L).usedAmount(0L).build());
         HiringBudget hydBudget = hiringBudgetRepository.save(HiringBudget.builder()
-                .location(hyderabad).totalSlots(8).usedSlots(0).build());
+                .location(hyderabad).totalSlots(8).usedSlots(0).budgetAmount(4000000L).usedAmount(0L).build());
 
         TrainingSeat blrSeats = trainingSeatRepository.save(TrainingSeat.builder()
                 .location(bangalore).totalSeats(15).occupiedSeats(0).build());
@@ -245,7 +245,9 @@ public class DataSeeder implements CommandLineRunner {
         // ─── Reflect resource usage from joined people ────────────────────────────
         // 5 joined into Bangalore (t1, t3, t4, t5, u10), 1 into Hyderabad (t2).
         blrBudget.setUsedSlots(5);
+        blrBudget.setUsedAmount(250000L); // 5 × ₹50,000
         hydBudget.setUsedSlots(1);
+        hydBudget.setUsedAmount(50000L); // 1 × ₹50,000
         hiringBudgetRepository.save(blrBudget);
         hiringBudgetRepository.save(hydBudget);
         // Trainees currently occupying training seats (in-progress): t1 (BLR), t2 (HYD).

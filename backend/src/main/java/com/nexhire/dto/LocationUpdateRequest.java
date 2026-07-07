@@ -13,4 +13,6 @@ public class LocationUpdateRequest {
 
     private Integer budgetTotalSlots;
     private Integer seatsTotalSeats;
+    /** Annual training budget in ₹ (set by Admin). */
+    private Long budgetAmount;
 }

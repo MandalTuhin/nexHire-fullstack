@@ -20,4 +20,11 @@ public class LocationResponse {
     private Integer seatsTotal;
     private Integer seatsOccupied;
     private Integer seatsAvailable;
+
+    /** Annual training budget in ₹ (set by Admin). */
+    private Long budgetAmount;
+    /** Budget consumed so far in ₹. */
+    private Long usedAmount;
+    /** Remaining budget in ₹. */
+    private Long remainingAmount;
 }

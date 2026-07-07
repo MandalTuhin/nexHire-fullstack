@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS hiring_budgets (
     id          BIGSERIAL PRIMARY KEY,
     location_id BIGINT NOT NULL UNIQUE REFERENCES locations(id),
     total_slots INTEGER NOT NULL,
-    used_slots  INTEGER NOT NULL DEFAULT 0
+    used_slots  INTEGER NOT NULL DEFAULT 0,
+    budget_amount BIGINT NOT NULL DEFAULT 0,
+    used_amount   BIGINT NOT NULL DEFAULT 0
 );
 
 -- ─── Training Seats (per location) ─────────────────────────────────────────

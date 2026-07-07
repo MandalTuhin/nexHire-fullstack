@@ -26,4 +26,14 @@ public class HiringBudget {
     @Column(nullable = false)
     @Builder.Default
     private Integer usedSlots = 0;
+
+    /** Total annual training budget (in ₹) assigned by Admin for this location. */
+    @Column(nullable = false)
+    @Builder.Default
+    private Long budgetAmount = 0L;
+
+    /** Amount already consumed (sum of CTC allocations for candidates sent to training). */
+    @Column(nullable = false)
+    @Builder.Default
+    private Long usedAmount = 0L;
 }

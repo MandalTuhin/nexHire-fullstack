@@ -48,6 +48,13 @@ public class LocationService {
             trainingSeatRepository.save(seats);
         }
 
+        if (request.getBudgetAmount() != null) {
+            HiringBudget budget = hiringBudgetRepository.findByLocationId(locationId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Budget not found for location"));
+            budget.setBudgetAmount(request.getBudgetAmount());
+            hiringBudgetRepository.save(budget);
+        }
+
         return toResponse(location);
     }
 
@@ -65,6 +72,9 @@ public class LocationService {
                 .seatsTotal(seats != null ? seats.getTotalSeats() : 0)
                 .seatsOccupied(seats != null ? seats.getOccupiedSeats() : 0)
                 .seatsAvailable(seats != null ? seats.getTotalSeats() - seats.getOccupiedSeats() : 0)
+                .budgetAmount(budget != null ? budget.getBudgetAmount() : 0L)
+                .usedAmount(budget != null ? budget.getUsedAmount() : 0L)
+                .remainingAmount(budget != null ? budget.getBudgetAmount() - budget.getUsedAmount() : 0L)
                 .build();
     }
 }

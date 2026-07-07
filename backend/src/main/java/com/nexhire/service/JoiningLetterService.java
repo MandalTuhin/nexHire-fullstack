@@ -72,6 +72,9 @@ public class JoiningLetterService {
 
         // Decrement budget and seats atomically
         budget.setUsedSlots(budget.getUsedSlots() + 1);
+        // Deduct training cost from monetary budget (₹50,000 per candidate)
+        long trainingCostPerCandidate = 50000L;
+        budget.setUsedAmount(budget.getUsedAmount() + trainingCostPerCandidate);
         hiringBudgetRepository.save(budget);
 
         seats.setOccupiedSeats(seats.getOccupiedSeats() + 1);
