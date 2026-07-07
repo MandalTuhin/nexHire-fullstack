@@ -29,6 +29,7 @@ public class JoiningLetterService {
     private final TraineeRepository traineeRepository;
     private final TrainingRecordRepository trainingRecordRepository;
     private final ActivityLogRepository activityLogRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public JoiningLetterResponse sendJoiningLetter(Long applicationId, JoiningLetterRequest request, Long sentById) {
@@ -98,7 +99,14 @@ public class JoiningLetterService {
         application.setStatus(ApplicationStatus.JOINING_LETTER_SENT);
         applicationRepository.save(application);
 
-        return toResponse(joiningLetterRepository.save(letter));
+        JoiningLetterResponse response = toResponse(joiningLetterRepository.save(letter));
+
+        // Notify candidate
+        notificationService.notify(application.getUser().getId(), "JOINING_LETTER",
+                "Joining Letter Issued",
+                "Your joining letter for " + application.getJob().getTitle() + " has been issued. Please review and accept.");
+
+        return response;
     }
 
     public List<JoiningLetterResponse> getMyJoiningLetters(Long userId) {

@@ -190,6 +190,17 @@ CREATE TABLE IF NOT EXISTS activity_logs (
     "timestamp" TIMESTAMP(6) NOT NULL
 );
 
+-- ─── Notifications ──────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS notifications (
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT NOT NULL REFERENCES users(id),
+    title      VARCHAR(255) NOT NULL,
+    message    VARCHAR(255) NOT NULL,
+    type       VARCHAR(255) NOT NULL,
+    read       BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP(6) NOT NULL DEFAULT NOW()
+);
+
 -- ============================================================================
 -- Done. Start the Spring Boot backend to auto-seed sample data on first boot.
 -- ============================================================================

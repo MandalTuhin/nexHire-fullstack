@@ -25,6 +25,7 @@ public class TrainingService {
     private final TraineeRepository traineeRepository;
     private final TrainingRecordRepository trainingRecordRepository;
     private final JobApplicationRepository applicationRepository;
+    private final NotificationService notificationService;
 
     /** HR: list all trainees with their training records. */
     public List<TraineeResponse> getAllTrainees() {
@@ -81,6 +82,11 @@ public class TrainingService {
         JobApplication application = trainee.getApplication();
         application.setStatus(ApplicationStatus.TRAINING_COMPLETED);
         applicationRepository.save(application);
+
+        // Notify trainee
+        notificationService.notify(trainee.getUser().getId(), "TRAINING_COMPLETED",
+                "Training Completed",
+                "Congratulations! Your training is complete. You are now eligible for project allocation.");
 
         return toResponse(trainee);
     }

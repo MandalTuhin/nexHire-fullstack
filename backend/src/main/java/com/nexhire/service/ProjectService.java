@@ -28,6 +28,7 @@ public class ProjectService {
     private final TrainingRecordRepository trainingRecordRepository;
     private final JobApplicationRepository applicationRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     /** ADMIN + RMG: list all projects (RMG filters to active ones client-side for allocation). */
     public List<ProjectResponse> getAllProjects() {
@@ -119,6 +120,11 @@ public class ProjectService {
         // Increment team size
         project.setTeamSize(project.getTeamSize() + 1);
         projectRepository.save(project);
+
+        // Notify trainee about project assignment
+        notificationService.notify(user.getId(), "PROJECT_ASSIGNED",
+                "Project Assigned",
+                "You have been assigned to project: " + project.getName() + ". Welcome to the team!");
 
         return ProjectAssignmentResponse.builder()
                 .id(assignment.getId())

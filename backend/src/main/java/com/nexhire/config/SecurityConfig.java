@@ -52,6 +52,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/projects/**").hasAnyRole("ADMIN", "RMG")
                         // Dashboard: computed metrics for management roles
                         .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "HR", "RMG")
+                        // Notifications: any authenticated user
+                        .requestMatchers("/api/notifications/**").authenticated()
                         // Training: HR manages, EMPLOYEE views own
                         .requestMatchers("/api/training/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/api/locations/**").hasRole("HR")

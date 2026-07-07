@@ -25,6 +25,7 @@ public class OfferService {
     private final OfferLetterRepository offerLetterRepository;
     private final JobApplicationRepository applicationRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public OfferResponse sendOffer(Long applicationId, OfferRequest request, Long sentById) {
@@ -49,7 +50,14 @@ public class OfferService {
         application.setStatus(ApplicationStatus.OFFER_SENT);
         applicationRepository.save(application);
 
-        return toResponse(offerLetterRepository.save(offer));
+        OfferResponse response = toResponse(offerLetterRepository.save(offer));
+
+        // Notify candidate
+        notificationService.notify(application.getUser().getId(), "OFFER_RECEIVED",
+                "Offer Letter Received",
+                "You have received an offer for " + application.getJob().getTitle() + ". Check your offers.");
+
+        return response;
     }
 
     public List<OfferResponse> getMyOffers(Long userId) {
