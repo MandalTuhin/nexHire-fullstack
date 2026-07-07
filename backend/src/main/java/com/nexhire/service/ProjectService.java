@@ -29,12 +29,12 @@ public class ProjectService {
     private final JobApplicationRepository applicationRepository;
     private final UserRepository userRepository;
 
-    /** RMG: list active projects. */
-    public List<ProjectResponse> getActiveProjects() {
-        return projectRepository.findByActiveTrue().stream().map(this::toProjectResponse).toList();
+    /** ADMIN + RMG: list all projects (RMG filters to active ones client-side for allocation). */
+    public List<ProjectResponse> getAllProjects() {
+        return projectRepository.findAll().stream().map(this::toProjectResponse).toList();
     }
 
-    /** RMG: create a project. */
+    /** ADMIN: create a project. */
     @Transactional
     public ProjectResponse createProject(ProjectRequest request) {
         Project project = Project.builder()
@@ -42,6 +42,31 @@ public class ProjectService {
                 .description(request.getDescription())
                 .build();
         return toProjectResponse(projectRepository.save(project));
+    }
+
+    /** ADMIN: update an existing project's details. */
+    @Transactional
+    public ProjectResponse updateProject(Long projectId, ProjectRequest request) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + projectId));
+        project.setName(request.getName());
+        project.setDescription(request.getDescription());
+        if (request.getActive() != null) {
+            project.setActive(request.getActive());
+        }
+        return toProjectResponse(projectRepository.save(project));
+    }
+
+    /** ADMIN: delete a project. Blocked while trainees are still assigned to it. */
+    @Transactional
+    public void deleteProject(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + projectId));
+        if (projectAssignmentRepository.existsByProjectId(projectId)) {
+            throw new InvalidStateTransitionException(
+                    "Cannot delete a project that still has trainees assigned to it");
+        }
+        projectRepository.delete(project);
     }
 
     /** RMG: trainees eligible for assignment (applicationStatus == TRAINING_COMPLETED). */

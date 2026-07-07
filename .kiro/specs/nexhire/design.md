@@ -179,12 +179,14 @@ frontend/
 
 #### Projects & Assignment (`/api/projects`)
 
-| Method | Endpoint                                       | Role | Description                      |
-| ------ | ---------------------------------------------- | ---- | -------------------------------- |
-| GET    | `/api/projects`                                | RMG  | List available projects          |
-| POST   | `/api/projects`                                | RMG  | Create project                   |
-| GET    | `/api/projects/eligible-trainees`              | RMG  | List training-completed trainees |
-| POST   | `/api/projects/{projectId}/assign/{traineeId}` | RMG  | Assign trainee to project        |
+| Method | Endpoint                                       | Role       | Description                      |
+| ------ | ---------------------------------------------- | ---------- | -------------------------------- |
+| GET    | `/api/projects`                                | ADMIN, RMG | List all projects                |
+| POST   | `/api/projects`                                | ADMIN      | Create project                   |
+| PUT    | `/api/projects/{projectId}`                    | ADMIN      | Update project                   |
+| DELETE | `/api/projects/{projectId}`                    | ADMIN      | Delete project                   |
+| GET    | `/api/projects/eligible-trainees`              | RMG        | List training-completed trainees |
+| POST   | `/api/projects/{projectId}/assign/{traineeId}` | RMG        | Assign trainee to project        |
 
 #### Users (`/api/users`)
 
@@ -218,27 +220,27 @@ frontend/
 
 ### Role Permissions Matrix
 
-| Feature               | ADMIN | HR  | RMG | EMPLOYEE (Candidate/Trainee) |
-| --------------------- | ----- | --- | --- | ---------------------------- |
-| Register              | -     | -   | -   | ✓ (public)                   |
-| Login                 | ✓     | ✓   | ✓   | ✓                            |
-| View Jobs             | -     | ✓   | -   | ✓                            |
-| Create Jobs           | -     | ✓   | -   | -                            |
-| Apply for Jobs        | -     | -   | -   | ✓ (lifecycle=CANDIDATE)      |
-| Start Assessment      | -     | ✓   | -   | -                            |
-| Manage Assessments    | -     | ✓   | -   | -                            |
-| Send Offer Letters    | -     | ✓   | -   | -                            |
-| Accept/Reject Offer   | -     | -   | -   | ✓                            |
-| Send Joining Letters  | -     | ✓   | -   | -                            |
-| Accept Joining Letter | -     | -   | -   | ✓                            |
-| View Budgets/Seats    | -     | ✓   | -   | -                            |
-| Manage Training       | -     | ✓   | -   | ✓ (view own only)            |
-| Manage Projects       | -     | -   | ✓   | -                            |
-| Assign Trainees       | -     | -   | ✓   | -                            |
-| Manage Users          | ✓     | -   | -   | -                            |
-| Manage Roles          | ✓     | -   | -   | -                            |
-| Manage Assets         | ✓     | -   | -   | -                            |
-| View Activity Logs    | ✓     | -   | -   | -                            |
+| Feature                | ADMIN | HR  | RMG | EMPLOYEE (Candidate/Trainee) |
+| ---------------------- | ----- | --- | --- | ---------------------------- |
+| Register               | -     | -   | -   | ✓ (public)                   |
+| Login                  | ✓     | ✓   | ✓   | ✓                            |
+| View Jobs              | -     | ✓   | -   | ✓                            |
+| Create Jobs            | -     | ✓   | -   | -                            |
+| Apply for Jobs         | -     | -   | -   | ✓ (lifecycle=CANDIDATE)      |
+| Start Assessment       | -     | ✓   | -   | -                            |
+| Manage Assessments     | -     | ✓   | -   | -                            |
+| Send Offer Letters     | -     | ✓   | -   | -                            |
+| Accept/Reject Offer    | -     | -   | -   | ✓                            |
+| Send Joining Letters   | -     | ✓   | -   | -                            |
+| Accept Joining Letter  | -     | -   | -   | ✓                            |
+| View Budgets/Seats     | -     | ✓   | -   | -                            |
+| Manage Training        | -     | ✓   | -   | ✓ (view own only)            |
+| Manage Projects (CRUD) | ✓     | -   | -   | -                            |
+| Assign Trainees        | -     | -   | ✓   | -                            |
+| Manage Users           | ✓     | -   | -   | -                            |
+| Manage Roles           | ✓     | -   | -   | -                            |
+| Manage Assets          | ✓     | -   | -   | -                            |
+| View Activity Logs     | ✓     | -   | -   | -                            |
 
 ## Data Models
 

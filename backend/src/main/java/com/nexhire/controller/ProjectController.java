@@ -22,18 +22,35 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    /** RMG: list active projects. */
+    /** ADMIN + RMG: list all projects. Admin manages them; RMG views them to allocate trainees. */
     @GetMapping
-    @PreAuthorize("hasRole('RMG')")
-    public ResponseEntity<List<ProjectResponse>> getActiveProjects() {
-        return ResponseEntity.ok(projectService.getActiveProjects());
+    @PreAuthorize("hasAnyRole('ADMIN', 'RMG')")
+    public ResponseEntity<List<ProjectResponse>> getProjects() {
+        return ResponseEntity.ok(projectService.getAllProjects());
     }
 
-    /** RMG: create a project. */
+    /** ADMIN: create a project. */
     @PostMapping
-    @PreAuthorize("hasRole('RMG')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody ProjectRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(request));
+    }
+
+    /** ADMIN: update a project. */
+    @PutMapping("/{projectId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProjectResponse> updateProject(
+            @PathVariable Long projectId,
+            @Valid @RequestBody ProjectRequest request) {
+        return ResponseEntity.ok(projectService.updateProject(projectId, request));
+    }
+
+    /** ADMIN: delete a project. */
+    @DeleteMapping("/{projectId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteProject(@PathVariable Long projectId) {
+        projectService.deleteProject(projectId);
+        return ResponseEntity.noContent().build();
     }
 
     /** RMG: list eligible (TRAINING_COMPLETED) trainees. */

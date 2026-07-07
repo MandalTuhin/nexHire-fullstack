@@ -55,7 +55,7 @@ public class ApplicationService {
     }
 
     public List<ApplicationResponse> getAllApplications() {
-        return applicationRepository.findAll().stream()
+        return applicationRepository.findAllByOrderByAppliedAtDesc().stream()
                 .map(this::toResponse)
                 .toList();
     }

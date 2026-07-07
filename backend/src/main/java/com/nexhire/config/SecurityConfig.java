@@ -44,16 +44,23 @@ public class SecurityConfig {
                         .requestMatchers("/api/jobs/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
-                        .requestMatchers("/api/assets/**").hasRole("ADMIN")
-                        .requestMatchers("/api/activity-logs/**").hasRole("ADMIN")
                         .requestMatchers("/api/roles/**").hasRole("ADMIN")
-                        .requestMatchers("/api/projects/**").hasRole("RMG")
+                        .requestMatchers("/api/activity-logs/**").hasRole("ADMIN")
+                        // Assets: managed by ADMIN, owning EMPLOYEE views own (method-level refines)
+                        .requestMatchers("/api/assets/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                        // Projects: ADMIN does CRUD, RMG allocates trainees (method-level refines)
+                        .requestMatchers("/api/projects/**").hasAnyRole("ADMIN", "RMG")
+                        // Dashboard: computed metrics for management roles
+                        .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "HR", "RMG")
+                        // Training: HR manages, EMPLOYEE views own
                         .requestMatchers("/api/training/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/api/locations/**").hasRole("HR")
                         .requestMatchers("/api/applications/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/api/assessments/**").hasRole("HR")
                         .requestMatchers("/api/offers/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/api/joining-letters/**").hasAnyRole("HR", "EMPLOYEE")
+                        // BGV: HR manages, EMPLOYEE views own
+                        .requestMatchers("/api/bgv/**").hasAnyRole("HR", "EMPLOYEE")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

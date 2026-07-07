@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ProjectAssignmentRepository extends JpaRepository<ProjectAssignment, Long> {
 
     Optional<ProjectAssignment> findByTraineeId(Long traineeId);
+
+    boolean existsByProjectId(Long projectId);
 }

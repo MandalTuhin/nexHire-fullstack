@@ -17,4 +17,6 @@ public interface AssetAssignmentRepository extends JpaRepository<AssetAssignment
     List<AssetAssignment> findByUserId(Long userId);
 
     Optional<AssetAssignment> findByAssetIdAndActiveTrue(Long assetId);
+
+    long countByActiveTrue();
 }

@@ -10,13 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectRequest {
+public class ProfileUpdateRequest {
 
-    @NotBlank(message = "Project name is required")
+    @NotBlank(message = "Name is required")
     private String name;
 
-    private String description;
-
-    /** Optional on update; ignored on create (new projects default to active). */
-    private Boolean active;
+    @NotBlank(message = "Phone is required")
+    private String phone;
 }

@@ -14,7 +14,7 @@ nexHIRE is a full-stack Human Resource Management System (HRMS) focused on emplo
 - **Trainee**: An EMPLOYEE-role user whose lifecycleStatus is TRAINEE
 - **HR**: Human Resources role responsible for managing hiring workflow, assessments, offers, joining, and training
 - **RMG**: Resource Management Group role responsible for assigning trainees to projects after training completion
-- **Admin**: Administrative role responsible for user management, role management, asset management, and activity logs
+- **Admin**: Administrative role responsible for user management, role management, project management (CRUD), asset management, and activity logs
 - **Assessment**: An evaluation conducted by third-party vendors; HR manually enters scores into nexHIRE
 - **Offer Letter**: A formal document sent to qualified candidates offering employment
 - **Joining Letter**: A formal document sent to candidates who accepted an offer, confirming their joining date. Sending requires budget and seat availability.
