@@ -54,6 +54,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "HR", "RMG")
                         // Notifications: any authenticated user
                         .requestMatchers("/api/notifications/**").authenticated()
+                        // Candidate profile + documents: authenticated
+                        .requestMatchers("/api/candidate-profile/**").authenticated()
+                        .requestMatchers("/api/documents/**").authenticated()
+                        // HR bulk operations
+                        .requestMatchers("/api/hr/**").hasRole("HR")
+                        // File download (authenticated)
+                        .requestMatchers("/api/files/**").authenticated()
                         // Training: HR manages, EMPLOYEE views own
                         .requestMatchers("/api/training/**").hasAnyRole("HR", "EMPLOYEE")
                         .requestMatchers("/api/locations/**").hasRole("HR")

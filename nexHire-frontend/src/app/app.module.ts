@@ -29,6 +29,7 @@ import { JobDetailsComponent } from './modules/candidate/job-details/job-details
 import { ApplicationFormComponent } from './modules/candidate/application-form/application-form.component';
 import { CandidateJoiningComponent } from './modules/candidate/joining/candidate-joining.component';
 import { CandidateTrainingComponent } from './modules/candidate/training/candidate-training.component';
+import { CandidateDocumentsComponent } from './modules/candidate/documents/candidate-documents.component';
 
 // ─── HR Portal Components ─────────────────────────────────────────────────────
 import { HrDashboardComponent } from './modules/dashboard/hr-dashboard/hr-dashboard.component';
@@ -42,6 +43,7 @@ import { AssetsManagementComponent } from './modules/assets/assets.component';
 import { ReleasedCandidatesComponent } from './modules/released/released.component';
 import { ProjectsComponent } from './modules/projects/projects.component';
 import { BudgetOverviewComponent } from './modules/budget-overview/budget-overview.component';
+import { HrBulkComponent } from './modules/hr-bulk/hr-bulk.component';
 
 // ─── Admin Portal Components ─────────────────────────────────────────────────
 import { AdminDashboardComponent } from './modules/admin/admin-dashboard/admin-dashboard.component';
@@ -77,6 +79,7 @@ import { NotFoundComponent } from './modules/errors/not-found.component';
     ApplicationFormComponent,
     CandidateJoiningComponent,
     CandidateTrainingComponent,
+    CandidateDocumentsComponent,
     // HR Portal
     HrDashboardComponent,
     ApplicationsManagementComponent,
@@ -89,6 +92,7 @@ import { NotFoundComponent } from './modules/errors/not-found.component';
     ReleasedCandidatesComponent,
     ProjectsComponent,
     BudgetOverviewComponent,
+    HrBulkComponent,
     // Admin Portal
     AdminDashboardComponent,
     UserManagementComponent,

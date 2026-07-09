@@ -84,4 +84,11 @@ export class ProjectRmgService extends BaseService {
       {},
     );
   }
+
+  bulkAssign(projectId: number, traineeIds: number[]): Observable<any> {
+    return this.http.post<any>(
+      `${API_ENDPOINTS.PROJECTS.BASE}/${projectId}/assign-bulk`,
+      traineeIds,
+    );
+  }
 }

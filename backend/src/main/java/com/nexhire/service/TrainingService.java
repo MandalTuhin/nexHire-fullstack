@@ -94,6 +94,23 @@ public class TrainingService {
     private TraineeResponse toResponse(Trainee trainee) {
         TrainingRecord record = trainingRecordRepository.findByTraineeId(trainee.getId()).orElse(null);
         JobApplication app = trainee.getApplication();
+
+        // Auto-compute progress from dates
+        int computedProgress = 0;
+        boolean autoCompleted = false;
+        if (record != null && record.getTrainingStartDate() != null && record.getTrainingEndDate() != null) {
+            java.time.LocalDate today = java.time.LocalDate.now();
+            long totalDays = java.time.temporal.ChronoUnit.DAYS.between(record.getTrainingStartDate(), record.getTrainingEndDate());
+            long elapsed = java.time.temporal.ChronoUnit.DAYS.between(record.getTrainingStartDate(), today);
+            if (totalDays > 0) {
+                computedProgress = (int) Math.min(100, Math.max(0, (elapsed * 100) / totalDays));
+            }
+            autoCompleted = computedProgress >= 100;
+        } else if (record != null) {
+            computedProgress = record.getProgress();
+            autoCompleted = record.getCompleted();
+        }
+
         return TraineeResponse.builder()
                 .traineeId(trainee.getId())
                 .userId(trainee.getUser().getId())
@@ -102,9 +119,11 @@ public class TrainingService {
                 .candidateEmail(trainee.getUser().getEmail())
                 .jobTitle(app.getJob().getTitle())
                 .applicationStatus(app.getStatus().name())
-                .progress(record != null ? record.getProgress() : 0)
+                .progress(computedProgress)
                 .topic(record != null ? record.getTopic() : null)
-                .completed(record != null ? record.getCompleted() : false)
+                .completed(autoCompleted)
+                .trainingStartDate(record != null ? record.getTrainingStartDate() : null)
+                .trainingEndDate(record != null ? record.getTrainingEndDate() : null)
                 .joinedAt(trainee.getJoinedAt())
                 .updatedAt(record != null ? record.getUpdatedAt() : null)
                 .build();

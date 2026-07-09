@@ -196,6 +196,8 @@ export class ReleasedCandidatesComponent implements OnInit {
   projects: RmgProject[] = [];
   candidateColumns = ['candidate', 'job', 'actions'];
   selectedProject: Record<number, number> = {};
+  bulkProjectId: number | null = null;
+  bulkResult: any = null;
 
   constructor(
     private rmg: ProjectRmgService,
@@ -207,7 +209,6 @@ export class ReleasedCandidatesComponent implements OnInit {
   }
 
   load(): void {
-    // RMG allocates to active projects only (projects are created/managed by Admin).
     this.rmg
       .getProjects()
       .subscribe(
@@ -225,6 +226,19 @@ export class ReleasedCandidatesComponent implements OnInit {
         this.load();
       },
       error: (e) => this.toast.error(e.error?.message || 'Failed to assign'),
+    });
+  }
+
+  bulkAssignAll(): void {
+    if (!this.bulkProjectId || this.eligible.length === 0) return;
+    const ids = this.eligible.map((t) => t.traineeId);
+    this.rmg.bulkAssign(this.bulkProjectId, ids).subscribe({
+      next: (res) => {
+        this.bulkResult = res;
+        this.toast.success(`Assigned ${res.assigned} trainees to project.`);
+        this.load();
+      },
+      error: () => this.toast.error('Bulk assign failed.'),
     });
   }
 }

@@ -71,4 +71,29 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(projectService.assignTrainee(projectId, traineeId, assignedById));
     }
+
+    /** RMG: bulk assign trainees to a project. */
+    @PostMapping("/{projectId}/assign-bulk")
+    @PreAuthorize("hasRole('RMG')")
+    public ResponseEntity<java.util.Map<String, Object>> bulkAssign(
+            @PathVariable Long projectId,
+            @RequestBody java.util.List<Long> traineeIds,
+            Authentication authentication) {
+        Long assignedById = (Long) authentication.getPrincipal();
+        int success = 0;
+        java.util.List<String> errors = new java.util.ArrayList<>();
+        for (Long tid : traineeIds) {
+            try {
+                projectService.assignTrainee(projectId, tid, assignedById);
+                success++;
+            } catch (Exception e) {
+                errors.add("Trainee " + tid + ": " + e.getMessage());
+            }
+        }
+        return ResponseEntity.ok(java.util.Map.of(
+                "totalRequested", traineeIds.size(),
+                "assigned", success,
+                "failed", traineeIds.size() - success,
+                "errors", errors));
+    }
 }

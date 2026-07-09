@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,6 +29,9 @@ public class TrainingRecord {
     private Integer progress = 0;
 
     private String topic;
+
+    private LocalDate trainingStartDate;
+    private LocalDate trainingEndDate;
 
     @Column(nullable = false)
     @Builder.Default

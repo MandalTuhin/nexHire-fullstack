@@ -1,13 +1,14 @@
 package com.nexhire.enums;
 
-/**
- * Background Verification status. Verification is performed by a third-party
- * vendor; nexHIRE records and surfaces the status against the application.
- */
 public enum BgvStatus {
-    PENDING,
+    NOT_STARTED,
+    DOCUMENTS_PENDING,
+    DOCUMENTS_SUBMITTED,
     IN_PROGRESS,
-    CLEARED,
+    PASSED,
     FAILED,
+    // Legacy values kept for compatibility with existing data
+    PENDING,
+    CLEARED,
     ON_HOLD
 }

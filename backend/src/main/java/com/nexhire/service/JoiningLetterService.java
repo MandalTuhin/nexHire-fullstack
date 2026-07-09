@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -148,10 +149,15 @@ public class JoiningLetterService {
                 .build();
         traineeRepository.save(trainee);
 
-        // Create TrainingRecord
+        // Create TrainingRecord with auto start/end dates (60-day training)
+        LocalDate startDate = letter.getJoiningDate();
+        LocalDate endDate = startDate.plusDays(60);
         TrainingRecord trainingRecord = TrainingRecord.builder()
                 .trainee(trainee)
                 .progress(0)
+                .topic("Systems Engineer Training")
+                .trainingStartDate(startDate)
+                .trainingEndDate(endDate)
                 .completed(false)
                 .build();
         trainingRecordRepository.save(trainingRecord);

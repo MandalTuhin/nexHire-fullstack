@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,6 +24,8 @@ public class TraineeResponse {
     private Integer progress;
     private String topic;
     private Boolean completed;
+    private LocalDate trainingStartDate;
+    private LocalDate trainingEndDate;
     private LocalDateTime joinedAt;
     private LocalDateTime updatedAt;
 }

@@ -21,6 +21,7 @@ import { CandidateApplicationsComponent } from './modules/candidate/applications
 import { CandidateOffersComponent } from './modules/candidate/offers/candidate-offers.component';
 import { CandidateJoiningComponent } from './modules/candidate/joining/candidate-joining.component';
 import { CandidateTrainingComponent } from './modules/candidate/training/candidate-training.component';
+import { CandidateDocumentsComponent } from './modules/candidate/documents/candidate-documents.component';
 import { CandidateProfileComponent } from './modules/candidate/profile/candidate-profile.component';
 import { ChangePasswordComponent } from './modules/candidate/change-password/change-password.component';
 
@@ -35,6 +36,7 @@ import { TraineesManagementComponent } from './modules/trainees/trainees.compone
 import { AssetsManagementComponent } from './modules/assets/assets.component';
 import { ProjectsComponent } from './modules/projects/projects.component';
 import { BudgetOverviewComponent } from './modules/budget-overview/budget-overview.component';
+import { HrBulkComponent } from './modules/hr-bulk/hr-bulk.component';
 import { ReleasedCandidatesComponent } from './modules/released/released.component';
 
 // ─── Admin Portal Pages ──────────────────────────────────────────────────────
@@ -85,6 +87,7 @@ const routes: Routes = [
       { path: 'offers', component: CandidateOffersComponent },
       { path: 'joining', component: CandidateJoiningComponent },
       { path: 'training', component: CandidateTrainingComponent },
+      { path: 'documents', component: CandidateDocumentsComponent },
       { path: 'profile', component: CandidateProfileComponent },
       { path: 'change-password', component: ChangePasswordComponent },
     ],
@@ -141,6 +144,12 @@ const routes: Routes = [
         component: BudgetOverviewComponent,
         canActivate: [PermissionGuard],
         data: { permissions: ['VIEW_LOCATIONS'] },
+      },
+      {
+        path: 'bulk',
+        component: HrBulkComponent,
+        canActivate: [PermissionGuard],
+        data: { permissions: ['VIEW_APPLICATIONS'] },
       },
       {
         path: 'released',

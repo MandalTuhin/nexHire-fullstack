@@ -444,6 +444,12 @@ export class HrLayoutComponent implements OnInit {
       permission: 'VIEW_LOCATIONS',
     },
     {
+      label: 'Bulk Operations',
+      icon: 'upload_file',
+      route: '/hr/bulk',
+      permission: 'VIEW_APPLICATIONS',
+    },
+    {
       label: 'Project Allocation',
       icon: 'business_center',
       route: '/hr/released',

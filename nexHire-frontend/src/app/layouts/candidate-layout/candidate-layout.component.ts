@@ -452,6 +452,7 @@ export class CandidateLayoutComponent implements OnInit {
     { label: 'My Offers', icon: 'card_membership', route: '/candidate/offers' },
     { label: 'My Joining', icon: 'how_to_reg', route: '/candidate/joining' },
     { label: 'My Training', icon: 'school', route: '/candidate/training' },
+    { label: 'My Documents', icon: 'folder', route: '/candidate/documents' },
   ];
 
   constructor(

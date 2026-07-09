@@ -29,6 +29,34 @@ export const API_ENDPOINTS = {
     BASE: `${BASE}/api/roles`,
   },
 
+  // ─── Candidate Profile ─────────────────────────────────────────────────────
+  CANDIDATE_PROFILE: {
+    BASE: `${BASE}/api/candidate-profile`,
+    BY_USER: (userId: number) => `${BASE}/api/candidate-profile/${userId}`,
+  },
+
+  // ─── Candidate Documents ───────────────────────────────────────────────────
+  DOCUMENTS: {
+    UPLOAD: `${BASE}/api/documents/upload`,
+    MY: `${BASE}/api/documents/my`,
+    BY_USER: (userId: number) => `${BASE}/api/documents/user/${userId}`,
+    DOWNLOAD: (id: number) => `${BASE}/api/documents/download/${id}`,
+  },
+
+  // ─── HR Bulk Operations ────────────────────────────────────────────────────
+  HR_BULK: {
+    UPLOAD: `${BASE}/api/hr/bulk-upload`,
+    TEMPLATE: `${BASE}/api/hr/template`,
+    GENERATE_OFFERS: `${BASE}/api/hr/bulk-generate-offers`,
+    GENERATE_JOINING: `${BASE}/api/hr/bulk-generate-joining`,
+  },
+
+  // ─── Files (PDF download) ──────────────────────────────────────────────────
+  FILES: {
+    OFFER: (appId: number) => `${BASE}/api/files/offer/${appId}`,
+    JOINING: (appId: number) => `${BASE}/api/files/joining/${appId}`,
+  },
+
   // ─── Jobs ──────────────────────────────────────────────────────────────────
   JOBS: {
     BASE: `${BASE}/api/jobs`,

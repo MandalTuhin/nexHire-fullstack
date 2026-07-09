@@ -49,6 +49,10 @@ export class MockInterceptor implements HttpInterceptor {
     '/api/activity-logs',
     '/api/dashboard',
     '/api/notifications',
+    '/api/candidate-profile',
+    '/api/documents',
+    '/api/hr',
+    '/api/files',
   ];
 
   constructor() {

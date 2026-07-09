@@ -95,22 +95,10 @@ public class DataSeeder implements CommandLineRunner {
                 .location(hyderabad).totalSeats(10).occupiedSeats(0).build());
 
         // ─── Jobs ───────────────────────────────────────────────────────────────
-        Job javaJob = jobRepository.save(Job.builder()
-                .title("Java Developer")
-                .description("Develop and maintain Java-based applications using Spring Boot.")
-                .requirements("Java 17, Spring Boot, REST APIs, PostgreSQL")
-                .location(bangalore).build());
-
-        Job angularJob = jobRepository.save(Job.builder()
-                .title("Angular Developer")
-                .description("Build modern web applications using Angular framework.")
-                .requirements("Angular 17+, TypeScript, HTML/CSS, REST integration")
-                .location(hyderabad).build());
-
-        Job fullStackJob = jobRepository.save(Job.builder()
-                .title("Full Stack Developer")
-                .description("Work on both frontend and backend of enterprise applications.")
-                .requirements("Java, Angular, PostgreSQL, Docker basics")
+        Job seJob = jobRepository.save(Job.builder()
+                .title("Systems Engineer")
+                .description("Entry-level IT role. Candidates will be allocated to different projects based on business need after training completion.")
+                .requirements("B.Tech in CS/IT, strong fundamentals, willingness to learn")
                 .location(bangalore).build());
 
         // ─── Projects (managed by Admin) ──────────────────────────────────────────
@@ -132,49 +120,49 @@ public class DataSeeder implements CommandLineRunner {
         // ─── Candidates across every application status ───────────────────────────
         // APPLIED
         User u1 = emp("John Candidate", "candidate1@nexhire.com", "9000000101", LifecycleStatus.CANDIDATE);
-        app(u1, javaJob, ApplicationStatus.APPLIED);
+        app(u1, seJob, ApplicationStatus.APPLIED);
 
         // ASSESSMENT_PENDING
         User u2 = emp("Jane Candidate", "candidate2@nexhire.com", "9000000102", LifecycleStatus.CANDIDATE);
-        app(u2, angularJob, ApplicationStatus.ASSESSMENT_PENDING);
+        app(u2, seJob, ApplicationStatus.ASSESSMENT_PENDING);
 
         // ASSESSMENT_COMPLETED (score recorded)
         User u3 = emp("Arjun Rao", "candidate3@nexhire.com", "9000000103", LifecycleStatus.CANDIDATE);
-        JobApplication a3 = app(u3, javaJob, ApplicationStatus.ASSESSMENT_COMPLETED);
+        JobApplication a3 = app(u3, seJob, ApplicationStatus.ASSESSMENT_COMPLETED);
         assessment(a3, 78.5, "Strong core Java, average on system design.", hr);
 
         // QUALIFIED
         User u4 = emp("Meera Nair", "candidate4@nexhire.com", "9000000104", LifecycleStatus.CANDIDATE);
-        JobApplication a4 = app(u4, fullStackJob, ApplicationStatus.QUALIFIED);
+        JobApplication a4 = app(u4, seJob, ApplicationStatus.QUALIFIED);
         assessment(a4, 88.0, "Excellent all-round performance.", hr);
 
         // REJECTED
         User u5 = emp("Rohit Kumar", "candidate5@nexhire.com", "9000000105", LifecycleStatus.CANDIDATE);
-        JobApplication a5 = app(u5, angularJob, ApplicationStatus.REJECTED);
+        JobApplication a5 = app(u5, seJob, ApplicationStatus.REJECTED);
         assessment(a5, 41.0, "Did not meet the qualifying threshold.", hr);
 
         // OFFER_SENT
         User u6 = emp("Sneha Iyer", "candidate6@nexhire.com", "9000000106", LifecycleStatus.CANDIDATE);
-        JobApplication a6 = app(u6, javaJob, ApplicationStatus.OFFER_SENT);
+        JobApplication a6 = app(u6, seJob, ApplicationStatus.OFFER_SENT);
         assessment(a6, 82.0, "Good problem solving.", hr);
         offer(a6, "Offer for Java Developer at NexHire. Annual CTC 12 LPA.", hr, null);
 
         // OFFER_ACCEPTED (+ BGV in progress)
         User u7 = emp("Vikram Shah", "candidate7@nexhire.com", "9000000107", LifecycleStatus.CANDIDATE);
-        JobApplication a7 = app(u7, fullStackJob, ApplicationStatus.OFFER_ACCEPTED);
+        JobApplication a7 = app(u7, seJob, ApplicationStatus.OFFER_ACCEPTED);
         assessment(a7, 90.0, "Top performer.", hr);
         offer(a7, "Offer for Full Stack Developer at NexHire. Annual CTC 14 LPA.", hr, now.minusDays(2));
         bgv(a7, BgvStatus.IN_PROGRESS, "SecureCheck Pvt Ltd", "Employment history verification underway.", null);
 
         // OFFER_REJECTED
         User u8 = emp("Anita Desai", "candidate8@nexhire.com", "9000000108", LifecycleStatus.CANDIDATE);
-        JobApplication a8 = app(u8, angularJob, ApplicationStatus.OFFER_REJECTED);
+        JobApplication a8 = app(u8, seJob, ApplicationStatus.OFFER_REJECTED);
         assessment(a8, 85.0, "Accepted another offer.", hr);
         offer(a8, "Offer for Angular Developer at NexHire.", hr, now.minusDays(1));
 
         // JOINING_ON_HOLD
         User u9 = emp("Karan Malhotra", "candidate9@nexhire.com", "9000000109", LifecycleStatus.CANDIDATE);
-        JobApplication a9 = app(u9, javaJob, ApplicationStatus.JOINING_ON_HOLD);
+        JobApplication a9 = app(u9, seJob, ApplicationStatus.JOINING_ON_HOLD);
         a9.setHoldReason("Awaiting hiring budget availability at Bangalore.");
         a9.setHoldCreatedAt(now.minusDays(1));
         applicationRepository.save(a9);
@@ -184,7 +172,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // JOINING_LETTER_SENT (joining letter issued, awaiting candidate acceptance)
         User u10 = emp("Divya Menon", "candidate10@nexhire.com", "9000000110", LifecycleStatus.CANDIDATE);
-        JobApplication a10 = app(u10, fullStackJob, ApplicationStatus.JOINING_LETTER_SENT);
+        JobApplication a10 = app(u10, seJob, ApplicationStatus.JOINING_LETTER_SENT);
         assessment(a10, 87.0, "Cleared all rounds.", hr);
         offer(a10, "Offer for Full Stack Developer at NexHire.", hr, now.minusDays(4));
         bgv(a10, BgvStatus.CLEARED, "SecureCheck Pvt Ltd", "All checks cleared.", now.minusDays(2));
@@ -192,7 +180,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // TRAINING_IN_PROGRESS (trainee, 45%)
         User t1 = emp("Aditya Verma", "trainee1@nexhire.com", "9000000111", LifecycleStatus.TRAINEE);
-        JobApplication ta1 = app(t1, javaJob, ApplicationStatus.TRAINING_IN_PROGRESS);
+        JobApplication ta1 = app(t1, seJob, ApplicationStatus.TRAINING_IN_PROGRESS);
         assessment(ta1, 84.0, "Cleared all rounds.", hr);
         offer(ta1, "Offer for Java Developer at NexHire.", hr, now.minusDays(20));
         bgv(ta1, BgvStatus.CLEARED, "SecureCheck Pvt Ltd", "All checks cleared.", now.minusDays(15));
@@ -201,7 +189,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // TRAINING_IN_PROGRESS (trainee, 70%)
         User t2 = emp("Pooja Reddy", "trainee2@nexhire.com", "9000000112", LifecycleStatus.TRAINEE);
-        JobApplication ta2 = app(t2, angularJob, ApplicationStatus.TRAINING_IN_PROGRESS);
+        JobApplication ta2 = app(t2, seJob, ApplicationStatus.TRAINING_IN_PROGRESS);
         assessment(ta2, 81.0, "Cleared all rounds.", hr);
         offer(ta2, "Offer for Angular Developer at NexHire.", hr, now.minusDays(22));
         bgv(ta2, BgvStatus.CLEARED, "VerifyPro Solutions", "All checks cleared.", now.minusDays(16));
@@ -210,7 +198,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // TRAINING_COMPLETED (eligible for RMG allocation)
         User t3 = emp("Sameer Joshi", "trainee3@nexhire.com", "9000000113", LifecycleStatus.TRAINEE);
-        JobApplication ta3 = app(t3, javaJob, ApplicationStatus.TRAINING_COMPLETED);
+        JobApplication ta3 = app(t3, seJob, ApplicationStatus.TRAINING_COMPLETED);
         assessment(ta3, 89.0, "Cleared all rounds.", hr);
         offer(ta3, "Offer for Java Developer at NexHire.", hr, now.minusDays(40));
         bgv(ta3, BgvStatus.CLEARED, "SecureCheck Pvt Ltd", "All checks cleared.", now.minusDays(35));
@@ -219,7 +207,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // TRAINING_COMPLETED (eligible for RMG allocation)
         User t4 = emp("Nisha Gupta", "trainee4@nexhire.com", "9000000114", LifecycleStatus.TRAINEE);
-        JobApplication ta4 = app(t4, fullStackJob, ApplicationStatus.TRAINING_COMPLETED);
+        JobApplication ta4 = app(t4, seJob, ApplicationStatus.TRAINING_COMPLETED);
         assessment(ta4, 92.0, "Cleared all rounds.", hr);
         offer(ta4, "Offer for Full Stack Developer at NexHire.", hr, now.minusDays(42));
         bgv(ta4, BgvStatus.CLEARED, "VerifyPro Solutions", "All checks cleared.", now.minusDays(37));
@@ -228,7 +216,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // PROJECT_ASSIGNED (already allocated to Project Alpha by RMG)
         User t5 = emp("Rahul Singh", "employee1@nexhire.com", "9000000115", LifecycleStatus.PROJECT_ASSIGNED);
-        JobApplication ta5 = app(t5, javaJob, ApplicationStatus.PROJECT_ASSIGNED);
+        JobApplication ta5 = app(t5, seJob, ApplicationStatus.PROJECT_ASSIGNED);
         assessment(ta5, 86.0, "Cleared all rounds.", hr);
         offer(ta5, "Offer for Java Developer at NexHire.", hr, now.minusDays(70));
         bgv(ta5, BgvStatus.CLEARED, "SecureCheck Pvt Ltd", "All checks cleared.", now.minusDays(65));

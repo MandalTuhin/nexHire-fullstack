@@ -32,6 +32,10 @@ public class ApplicationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        if (!Boolean.TRUE.equals(user.getProfileComplete())) {
+            throw new InvalidStateTransitionException("Complete your profile before applying.");
+        }
+
         Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new ResourceNotFoundException("Job not found with id: " + jobId));
 
